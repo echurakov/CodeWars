@@ -1,0 +1,241 @@
+#!csharp
+
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+#!csharp
+
+class P
+{
+    public static void Main(string[] args)
+    {
+        int[] letters = new int[2];
+        letters[0] = 1;
+        letters[1] = 3;
+        int[,] M = Mat.fillMat(letters);
+        for(int i = 0;i<4;i++)
+        {
+            for(int j = 0; j < 4;j++)
+            {
+                Console.Write("" + M[i,j] + " ");
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine(M);
+    }
+}
+P.Main(null);
+
+#!csharp
+
+//  P.Main(null);
+
+#!markdown
+
+sdadsq12123
+
+#!csharp
+
+class SolutionMorse
+{
+    public static string getTranslate(string morseCode)
+    {
+        morseCode = morseCode.Trim();
+		string[] morse = morseCode.Split(' ');
+        string result = "";
+        for(int i = 0; i < morse.Length; i++)
+        {
+            if(morse[i] == "")
+            {
+                i = i + 1;
+                result += " ";
+                continue;
+            }
+            result += getLetter(morse[i]);
+        }
+        return result;
+    }
+    public static string getLetter(string input)
+    {
+        Dictionary<string, string> dict = new Dictionary<string, string>();
+        dict.Add(".-" , "A");
+        dict.Add("-..." , "B");
+        dict.Add("-.-." , "C");
+        dict.Add("-.." , "D");
+        dict.Add("." , "E");
+        dict.Add("..-." , "F");
+        dict.Add("--." , "G");
+        dict.Add("...." , "H");
+        dict.Add(".." , "I");
+        dict.Add(".---" , "J");
+        dict.Add("-.-" , "K");
+        dict.Add(".-.." , "L");
+        dict.Add("--" , "M");
+        dict.Add("-." , "N");
+        dict.Add("---" , "O");
+        dict.Add(".--." , "P");
+        dict.Add("--.-" , "Q");
+        dict.Add(".-." , "R");
+        dict.Add("..." , "S");
+        dict.Add("-" , "T");
+        dict.Add("..-" , "U");
+        dict.Add("...-" , "V");
+        dict.Add(".--" , "W");
+        dict.Add("-..-" , "X");
+        dict.Add("-.--" , "Y");
+        dict.Add("--.." , "Z");
+        dict.Add(".-.-.-", ".");
+        dict.Add("--..--", ",");
+        dict.Add("..--..", "?");
+        dict.Add("-.-.--", "!");
+        dict.Add("...---...", "SOS");
+        dict.Add("...---...-.-.--", "SOS!");
+        
+        
+        if (dict.ContainsKey(input)) return dict[input];
+        return "0";
+    }
+}
+
+#!csharp
+
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+class SolutionStringMix
+{
+    public static bool isAZ(char letter)
+    {
+        Regex rx = new Regex("[a-z]");
+        return rx.Matches(Char.ToString(letter)).Count != 0;
+    }
+    public static string Mix(string Word1, string Word2)
+    {
+        Regex rx = new Regex("[a-z]");
+        Dictionary<char, string> marker = new Dictionary<char , string>();
+        Dictionary<char, int> word1 = new Dictionary<char, int>();
+        Dictionary<char, int> word2 = new Dictionary<char, int>();
+        Dictionary<char, int> word = new Dictionary<char, int>();
+        for (int i = 0; i < Word1.Length; i++)
+        {
+            // Console.WriteLine("bool = " + word1.ContainsKey(Word1[i]) + " | n = " + Word1[i]);
+            if (rx.Matches(Char.ToString(Word1[i])).Count == 0) continue; // check that letter betwwen a-z 
+            if (!word1.ContainsKey(Word1[i])) word1.Add(Word1[i], 1);
+            else word1[Word1[i]] = word1[Word1[i]] + 1;
+        }
+        for (int i = 0; i < Word2.Length; i++)
+        {
+            if (rx.Matches(Char.ToString(Word2[i])).Count == 0) continue; // check that letter betwwen a-z 
+            if (!word2.ContainsKey(Word2[i])) word2.Add(Word2[i], 1);
+            else word2[Word2[i]] = word2[Word2[i]] + 1;
+        }
+        foreach (KeyValuePair<char, int> pair in word1) 
+        {
+            word.Add(pair.Key,pair.Value);
+            marker.Add(pair.Key,"1");
+        }
+        foreach (KeyValuePair<char, int> pair in word2) 
+        {
+            if (word.ContainsKey(pair.Key))
+            {
+                if(pair.Value == word[pair.Key])
+                {
+                    // Console.WriteLine(pair.Key + "|" + pair.Value + " > " + word[pair.Key]);
+                    marker[pair.Key] = "=";
+                    // Console.WriteLine(pair.Key + " | " + word[pair.Key]);
+                }
+                if(pair.Value > word[pair.Key])
+                {
+                    // Console.WriteLine(""+ pair.Key + "|" + pair.Value + " > " + word[pair.Key]);
+                    word[pair.Key] = pair.Value;
+                    marker[pair.Key] = "2";
+                }
+                continue;
+            }
+            word.Add(pair.Key,pair.Value);
+            marker.Add(pair.Key , "2");
+        }
+        int k = 0;
+        string result = "";
+        string result1 = "";
+        foreach(KeyValuePair<char, int> pair in word) 
+        {
+            k = pair.Value;
+            result += marker[pair.Key];
+            result += ":";
+            while(k > 0)
+            {
+                result += "" + pair.Key;
+                k = k - 1;
+            }
+            result +="/";
+            // Console.WriteLine("" + pair.Key + pair.Value + " | " + marker[pair.Key]);
+            k++;
+        }
+        foreach (var pair in word.OrderByDescending(pair => pair.Value))
+        {
+            k = pair.Value;
+            result1 += marker[pair.Key];
+            result1 += ":";
+            while(k > 0)
+            {
+                result1 += "" + pair.Key;
+                k = k - 1;
+            }
+            result1 +="/";
+            // Console.WriteLine("" + pair.Key + pair.Value + " | " + marker[pair.Key]);
+            k++;
+        }
+        Console.WriteLine(result1);
+        return result;
+    }
+}
+
+#!csharp
+
+class SolutionScreenLockingPatterns
+{
+    public static int CountPatternsFrom(char firstDot, int length)
+    {
+
+        return 0;
+        
+    }
+}
+
+#!csharp
+
+using System;
+
+class Mat
+{
+    public static int Kolvo(char letter, int length)
+    {
+
+        return 0;
+    }
+    public static int[,] fillMat(int[] letters)
+    {
+        int n = 4;
+        int m = 4;
+        int[,] Matrix = new int[4,4];
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = 0; j < m;j++)
+            {
+                Matrix[i,j] = 1;
+            }
+        }
+        foreach(int i in letters)
+        {
+            for(int j = 0;j<4;j++)
+            {
+                Matrix[i,j] = 0;
+                Matrix[j,i] = 0;
+            }
+        }
+        return Matrix;
+    }
+}
