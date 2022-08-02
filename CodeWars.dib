@@ -239,3 +239,254 @@ class Mat
         return Matrix;
     }
 }
+
+#!csharp
+
+class ProperFractionsSol
+{
+    public static long ProperFractions(long n)
+    {
+        List<long> frac = new List<long>();
+        long buff;
+        frac.Add(1);
+        for(int i = 2; i <= (n);i++)
+        {
+            buff = i;
+            // Console.WriteLine("" + i + " | " + n%i);
+            if(n%i == 0 && !frac.Contains(i))
+            {
+              while(buff < n || buff < 0)
+              {
+                  frac.Add(buff);
+                //   Console.WriteLine(buff);
+                  buff += i;
+                  
+              }
+            } 
+        }   
+        return n - frac.Count;
+    }
+
+    public static long ProperFractions1(long n)
+    {
+        List<long> frac = new List<long>();
+        frac.Add(1);
+        for(int i = 2; i < n ;i++)
+        {
+            if(n%i == 0) 
+            {
+                Console.WriteLine("" + i + " | " + n%i);
+                frac.Add(i);
+            }
+        }
+        long sum = 1;
+        foreach(long d in frac)
+        {
+            if(d == 1) continue;
+            Console.WriteLine(n/d);
+           sum += (n/d) - 1;
+        }   
+        return n - sum;
+    }
+    public static long ProperFractions2(long n)
+    {
+        List<long> frac = new List<long>();
+        frac.Add(1);
+        long n1 = n;
+        long i = 1;
+        while(i*i < n1)
+        {
+            i++;
+            if(n1%i == 0)
+            {
+                frac.Add(i);
+                Console.WriteLine(i);
+                while(n1%i == 0) n1 = n1/i;
+            }
+            
+        }
+        if(n1 != 1) frac.Add(n1);
+        long sum = 1;
+        foreach(long d in frac)
+        {
+            if(d == 1) continue;
+           sum += (n/d) - 1;
+           Console.WriteLine(sum);
+           foreach(long d1 in frac)
+           {
+            if(d1 > d && n%(d1*d) == 0)
+            {
+                sum -= n/(d1*d);
+                Console.WriteLine("-" + sum + "| " + d1 + " | " + d);
+            }
+           }
+        }   
+        Console.WriteLine("\n" + sum);
+        return n - sum;
+    }
+
+    public static long ProperFractions3(long n)
+    {
+        List<long> frac = new List<long>();
+        List<int> pow = new List<int> ();
+        List<long> Frac = new List<long>();
+         frac.Add(1);
+        long n1 = n;
+        long n2 = n;
+        long k = 1;
+        while(k*k < n1)
+        {
+            k++;
+            if(n1%k == 0)
+            {
+                
+                while(n1%k == 0) 
+                {
+                    frac.Add(k);
+                    n1 = n1/k;
+                }
+            }
+            
+        }
+        if(n1 != 1) frac.Add(n1);
+        int p = 0;
+        foreach(long f in frac)
+        {
+            if(!Frac.Contains(f))
+            {
+                Frac.Add(f);
+                pow.Add(1);
+                p++;
+            }else
+            {
+                n = n/Frac[p-1];
+                pow[p-1] = pow[p-1] + 1;
+            }
+        }
+        Console.WriteLine("-----" + n);
+        foreach(long d in Frac)
+        {
+            Console.WriteLine("---" + d + "---");
+        }
+        
+        long sum = 0;
+        long buff = 0;
+        for(int i = 1; i < Frac.Count;i++)
+        {
+            buff = Frac[i];
+           sum += (n/buff) - 1;
+           Console.WriteLine("+" + sum);
+            
+            for(int j = i + 1; j < Frac.Count;j++)
+            {
+                
+                buff = Frac[i]*Frac[j];
+                sum -= ((n/buff) - 1);
+                Console.WriteLine("-" + sum + " | " + Frac[i] + " | " + Frac[j] +" | " +n/(buff) );
+                
+            }
+        }
+        sum ++;
+        int Sum = 0;
+        double Mlt = 1;
+        for(int i = 0; i < Frac.Count;i++)
+        {
+            if(pow[i] != 1)
+            Mlt = Mlt*Math.Pow(Frac[i],pow[i] - 1);
+        }
+        long Mlt1 = Convert.ToInt64(Mlt);
+        long Res = (sum*Mlt1);
+        Console.WriteLine("sum = " + sum);
+        Console.WriteLine("Frac = " + Frac.Count);
+        foreach(long F in Frac) Console.WriteLine(F);
+        Console.WriteLine("Mlt = " + Mlt1);
+        if( sum == 0) return (Frac[1]-1)*Mlt1;
+       
+        Console.WriteLine("\n" + Mlt1 + " | " + Res);
+        return n2 - Res;
+    }
+    public static long ProperFractions4(long n)
+    {
+        List<long> frac = new List<long>();
+        List<int> pow = new List<int> ();
+        List<long> Frac = new List<long>();
+         frac.Add(1);
+        long n1 = n;
+        long n2 = n;
+        long k = 1;
+        while(k*k < n1)
+        {
+            k++;
+            if(n1%k == 0)
+            {
+                
+                while(n1%k == 0) 
+                {
+                    frac.Add(k);
+                    n1 = n1/k;
+                }
+            }
+            
+        }
+        if(n1 != 1) frac.Add(n1);
+        int p = 0;
+        foreach(long f in frac)
+        {
+            if(!Frac.Contains(f))
+            {
+                Frac.Add(f);
+                pow.Add(1);
+                p++;
+            }else
+            {
+                n = n/Frac[p-1];
+                pow[p-1] = pow[p-1] + 1;
+            }
+        }
+        Console.WriteLine("-----" + n);
+        foreach(long d in Frac)
+        {
+            Console.WriteLine("---" + d + "---");
+        }
+        
+        long sum = 0;
+        long buff = 0;
+        for(int i = 1; i < Frac.Count;i++)
+        {
+            buff = Frac[i];
+           sum += (n/buff) - 1;
+           Console.WriteLine(sum);
+            
+            for(int j = i + 1; j < Frac.Count;j++)
+            {
+                
+                buff = Frac[i]*Frac[j];
+                sum -= ((n/buff) - 1);
+                Console.WriteLine("-" + sum + " | " + Frac[i] + " | " + Frac[j] +" | " +n/(buff) );
+                
+            }
+        }
+        Console.WriteLine(sum);
+        return n2 - sum;
+    }
+}
+
+#!csharp
+
+class P
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("______\n" + ProperFractionsSol.ProperFractions3(210));
+        // Console.WriteLine("______\n" + ProperFractionsSol.ProperFractions4(9999999));
+    }
+}
+P.Main(null);
+
+#!csharp
+
+9999999 - 1120885*3
+
+#!csharp
+
+6637344
