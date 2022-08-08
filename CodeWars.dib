@@ -230,27 +230,23 @@ class Mat
 {
     public static int Kolvo(char letter, int length)
     {
-
         return 0;
     }
+
+
     public static int[,] fillMat(int[] letters)
     {
-        int n = 4;
-        int m = 4;
-        int[,] Matrix = new int[4,4];
-        for(int i = 0;i < n;i++)
+        int n = 9;
+        int m = n - letters.Length;
+        Console.WriteLine("m = " + m);
+
+
+        int[,] Matrix = new int[m,m];
+        for(int i = 0;i < m;i++)
         {
             for(int j = 0; j < m;j++)
             {
                 Matrix[i,j] = 1;
-            }
-        }
-        foreach(int i in letters)
-        {
-            for(int j = 0;j<4;j++)
-            {
-                Matrix[i,j] = 0;
-                Matrix[j,i] = 0;
             }
         }
         return Matrix;
@@ -451,8 +447,10 @@ class P
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine(SolutionStringMix.Mix("Are they here", "yes, they are here"));
-        // Console.WriteLine("______\n" + ProperFractionsSol.ProperFractions4(9999999));
+        int[] jija = new int[2];
+        jija[0] = 1;
+        jija[1] = 1;
+        Mat.fillMat(jija);
     }
 }
 P.Main(null);
@@ -463,4 +461,4 @@ P.Main(null);
 
 #!csharp
 
-(int)'b'
+(int)'b' - (int)'a' + 1

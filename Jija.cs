@@ -1,12 +1,18 @@
-#!csharp
+#pragma warning disable format
 
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-#!csharp
 
-using System;
+
+class P
+{
+    public static void Main()
+    {
+       Console.WriteLine(Mat.Kolvo('a',2));
+    }
+}
 
 class Mat
 {
@@ -28,7 +34,7 @@ class Mat
         if(length <= 0) return 0;
         if(length >= 10) return 0;
         List<int> letters = new List<int>(old_letters);
-        letters.Append<int>(new_letter);
+        letters.Add(new_letter);
         foreach(int l in old_letters)
         {
             Console.WriteLine("All letters in old_letters = " + l);
@@ -63,7 +69,7 @@ class Mat
         int[] markers = new int[9];
         for(int i = 0;i< 9;i++)
         {
-            markers[i] = Convert.ToInt32(!letters.Contains<int>(i+1));;
+            markers[i] = Convert.ToInt32(!letters.Contains(i+1));;
         }
         //  markers[1] = Convert.ToInt32(!letters.Contains<int>(2));
         //  markers[3] = Convert.ToInt32(!letters.Contains<int>(4));
@@ -131,29 +137,29 @@ class Mat
     public static int[,] fillMatrixMarkes(int[,] Matrix, List<int> letters)
     {
         int m = 9;
-        if(!letters.Contains<int>(2))
+        if(!letters.Contains(2))
         {
             Matrix[0,2] = 0;
             Matrix[2,0] = 0;
         }
-        if(!letters.Contains<int>(4))
+        if(!letters.Contains(4))
         {
             Matrix[0,6] = 0;
             Matrix[6,0] = 0;
         }
-          if(!letters.Contains<int>(5))
+          if(!letters.Contains(5))
         {
             for(int i = 0;i<m;i++)
             {
                 Matrix[i,m-1-i] = 0;
             }
         }
-          if(!letters.Contains<int>(6))
+          if(!letters.Contains(6))
         {
             Matrix[2,8] = 0;
             Matrix[8,2] = 0;
         }
-          if(!letters.Contains<int>(8))
+          if(!letters.Contains(8))
         {
             Matrix[6,8] = 0;
             Matrix[8,6] = 0;
@@ -163,21 +169,3 @@ class Mat
 
 
 }
-
-#!csharp
-
-class P
-{
-    public static void Main()
-    {   
-        // List<int> l = new List<int>();
-        // l.Add(1);
-        // int[,] Matrix = Mat.fillMat(l , 2);
-        // Mat.printMatrix(Matrix);
-        Console.WriteLine(Mat.Kolvo('a',2));
-    }
-}
-
-#!csharp
-
-Console.WriteLine("123");
