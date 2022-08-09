@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
+using System.Linq;
 
 class Scramblies
 {
@@ -25,7 +25,7 @@ class Scramblies
           if(!word1.ContainsKey(Word1[i])) word1.Add(Word1[i] , 1);
           else word1[Word1[i]] = word1[Word1[i]] + 1;
         }
-        foreach(KeyValuePair<char , int> pair in word1)
+        foreach(KeyValuePair<char , int> pair in word1.OrderByDescending(pair => pair.Key))
         {
             Console.WriteLine("" + pair.Key + " | " + pair.Value);
         }
@@ -34,10 +34,24 @@ class Scramblies
             if(!word2.ContainsKey(Word2[i])) word2.Add(Word2[i] , 1);
             else word2[Word2[i]] = word2[Word2[i]] + 1;
         }
-        for(int i = 0; i < Word1.Length;i++)
+        Console.WriteLine("_____");
+        foreach(KeyValuePair<char , int> pair in word2.OrderByDescending(pair => pair.Key))
         {
-            if(!word2.ContainsKey(Word1[i])) return false;
-            if(! (word1[Word1[i]] > word2[Word1[i]])) return false;
+            Console.WriteLine("" + pair.Key + " | " + pair.Value);
+        }
+        for(int i = 0; i < Word2.Length;i++)
+        {
+            if(!word1.ContainsKey(Word2[i])) 
+            {
+                Console.WriteLine("1st exit");
+                return false;
+            }
+            if((word1[Word2[i]] < word2[Word2[i]]))
+            {
+                Console.WriteLine("2nd exit");
+                return false;
+
+            } 
         }
         return true;
     }
